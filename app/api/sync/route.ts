@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchAllProductsRecursive, fetchProductByHandle } from '@/lib/shopify/products';
-import { syncProductFromShopify, syncMultipleProducts } from '@/lib/firebase/sync';
+import { syncMultipleProducts } from '@/lib/firebase/sync';
 import {
   formatErrorResponse,
   ValidationError,

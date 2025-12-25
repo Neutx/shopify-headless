@@ -5,11 +5,11 @@ import { getTemplate } from '@/lib/firebase/templates';
 import { formatErrorResponse, NotFoundError, logError } from '@/lib/utils/errors';
 
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // Fetch product from Shopify
     const product = await fetchProductByHandle(id);

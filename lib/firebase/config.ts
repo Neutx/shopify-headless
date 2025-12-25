@@ -1,6 +1,7 @@
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
+import { getStorage, FirebaseStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,21 +12,35 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
+// Initialize Firebase (works on both client and server)
 let app: FirebaseApp;
-let auth: Auth;
+let auth: Auth | null = null;
 let db: Firestore;
+let storage: FirebaseStorage;
 
-if (typeof window !== 'undefined') {
-  // Client-side initialization
-  if (!getApps().length) {
-    app = initializeApp(firebaseConfig);
-  } else {
-    app = getApps()[0];
-  }
-  auth = getAuth(app);
-  db = getFirestore(app);
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApps()[0];
 }
 
-export { app, auth, db };
+// Initialize Firestore (works on server)
+// Configure Firestore with timeout settings
+db = getFirestore(app);
+// Set Firestore settings for better timeout handling
+if (typeof window === 'undefined') {
+  // Server-side: configure for better reliability
+  // Note: Firestore SDK doesn't expose timeout settings directly in v9+
+  // We'll handle timeouts in our wrapper functions instead
+}
+
+// Initialize Storage
+storage = getStorage(app);
+
+// Initialize Auth only on client side
+if (typeof window !== 'undefined') {
+  auth = getAuth(app);
+}
+
+export { app, auth, db, storage };
 

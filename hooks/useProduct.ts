@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query';
 import { queryKeys } from '@/lib/react-query/config';
 import {
   fetchProductByHandle,
@@ -58,11 +58,14 @@ export function useAllProducts(
  * Hook to prefetch a product by handle (useful for hover states)
  */
 export function usePrefetchProduct() {
-  const queryClient = useQuery({}).queryKey; // Access query client from hook
+  const queryClient = useQueryClient();
 
   return (handle: string) => {
-    // This is a simplified version - in production you'd get the queryClient from context
-    fetchProductByHandle(handle);
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.products.byHandle(handle),
+      queryFn: () => fetchProductByHandle(handle),
+      staleTime: 5 * 60 * 1000,
+    });
   };
 }
 

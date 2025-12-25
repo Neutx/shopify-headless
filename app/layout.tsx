@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import { ReactQueryProvider } from '@/providers/react-query-provider';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Headless Kreo',
@@ -14,8 +19,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+      <body className={inter.className}>
+        <ReactQueryProvider>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+        </ReactQueryProvider>
       </body>
     </html>
   );

@@ -64,13 +64,24 @@ npm run dev
 
 ```
 ├── app/                    # Next.js App Router pages and API routes
+│   ├── admin/             # Admin panel pages
+│   │   ├── navigation/    # Navigation management
+│   │   └── site-settings/ # Site settings management
 │   ├── api/               # API endpoints
 │   │   ├── products/      # Product endpoints
 │   │   ├── collections/   # Collection endpoints
 │   │   ├── templates/     # Template management
+│   │   ├── navigation/    # Navigation API
+│   │   ├── logo/          # Logo management API
+│   │   ├── site-settings/ # Site settings API
 │   │   └── sync/          # Shopify sync
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Home page
+│   ├── products/          # Product pages
+│   │   └── [handle]/      # Dynamic product page
+│   ├── collections/       # Collection pages
+│   │   └── [handle]/      # Dynamic collection page
+│   ├── layout.tsx         # Root layout with Header/Footer
+│   ├── page.tsx           # Home page
+│   └── not-found.tsx      # 404 page
 ├── lib/                   # Core libraries and utilities
 │   ├── firebase/          # Firebase configuration and utilities
 │   ├── shopify/           # Shopify API client and queries
@@ -79,7 +90,10 @@ npm run dev
 ├── hooks/                 # Custom React hooks
 ├── types/                 # TypeScript type definitions
 ├── providers/             # React context providers
-└── components/            # Reusable React components (to be added)
+└── components/            # Reusable React components
+    ├── ui/                # shadcn/ui components
+    ├── layout/            # Layout components (Header, Footer, etc.)
+    └── product/           # Product-related components
 ```
 
 ## API Routes
@@ -97,6 +111,22 @@ npm run dev
 - `PUT /api/templates/[id]` - Update template
 - `DELETE /api/templates/[id]` - Delete template
 
+### Navigation
+- `GET /api/navigation/header` - Get header navigation
+- `PUT /api/navigation/header` - Update header navigation
+- `GET /api/navigation/footer` - Get footer navigation
+- `PUT /api/navigation/footer` - Update footer navigation
+
+### Site Settings
+- `GET /api/site-settings` - Get site settings
+- `PUT /api/site-settings` - Update site settings
+
+### Logo Management
+- `GET /api/logo` - Get current logo
+- `POST /api/logo/upload` - Upload logo file
+- `PUT /api/logo` - Update logo with CDN URL
+- `DELETE /api/logo` - Remove logo
+
 ### Sync
 - `POST /api/sync` - Trigger Shopify sync
 - `GET /api/sync` - Get sync status
@@ -105,7 +135,7 @@ npm run dev
 
 ### Phase 0 & Phase 1 (Complete)
 - ✅ Next.js 15 project setup with TypeScript
-- ✅ Firebase integration (Firestore + Auth)
+- ✅ Firebase integration (Firestore + Auth + Storage)
 - ✅ Shopify Storefront API integration
 - ✅ TypeScript types for Shopify and Firebase
 - ✅ GraphQL queries for products and collections
@@ -113,6 +143,20 @@ npm run dev
 - ✅ API routes for products, collections, templates, and sync
 - ✅ Error handling and retry logic
 - ✅ Data validation with Zod
+
+### Phase 2 (Complete)
+- ✅ shadcn/ui component library setup
+- ✅ CMS-controlled Header with dynamic navigation
+- ✅ CMS-controlled Footer with sections and social links
+- ✅ Logo management system (file upload + CDN link)
+- ✅ Product page with image gallery, variants, and accordions
+- ✅ Collection page with sorting and filtering
+- ✅ Reusable components (ProductCard, ImageGallery, VariantSelector, etc.)
+- ✅ Admin panel foundation (Navigation & Site Settings)
+- ✅ Image optimization and performance setup
+- ✅ Loading states and error boundaries
+- ✅ 404 page and breadcrumb navigation
+- ✅ Mobile-responsive design with hamburger menu
 
 ## Development
 
@@ -143,14 +187,41 @@ Make sure to set up your Firebase project and Shopify store before running the a
 
 The following phases are planned:
 
-- **Phase 2**: Frontend Foundation (Layout, Core Pages, Components)
+- ~~**Phase 2**: Frontend Foundation (Layout, Core Pages, Components)~~ ✅ **COMPLETE**
 - **Phase 3**: Product Template System
-- **Phase 4**: Collection & Home Pages
-- **Phase 5**: Admin Panel
-- **Phase 6**: Performance Optimization
+- **Phase 4**: Collection & Home Pages (expand existing)
+- **Phase 5**: Admin Panel (expand existing)
+- **Phase 6**: Cart & Checkout Flow
 - **Phase 7**: Polish & Edge Cases
 - **Phase 8**: Testing & QA
 - **Phase 9**: Launch Preparation
+
+## CMS Features
+
+### Header & Footer Management
+The header and footer are fully CMS-controlled through the admin panel at `/admin/navigation`:
+
+- **Header Navigation**: Create menu items that link to collections, products, or external URLs
+- **Dropdown Menus**: Support for nested navigation items
+- **Footer Sections**: Multiple footer sections with links
+- **Social Links**: Configurable social media links with icons
+- **Newsletter**: Toggle newsletter signup form
+
+### Logo Management
+Manage your site logo through `/admin/site-settings`:
+
+- **File Upload**: Upload logo files (SVG, PNG, JPG, WEBP) to Firebase Storage
+- **CDN Link**: Use external CDN URLs for logos
+- **Alt Text**: Set accessibility alt text
+- **Preview**: Real-time logo preview
+- **Easy Removal**: One-click logo deletion
+
+### Brand Colors
+Customize your site's color scheme from the admin panel:
+
+- Primary, Secondary, and Accent colors
+- Color picker with hex value input
+- Real-time preview (coming soon)
 
 ## Contributing
 

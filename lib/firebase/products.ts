@@ -1,18 +1,21 @@
 import { Timestamp } from 'firebase/firestore';
-import { COLLECTIONS, ProductTemplate, SetProductTemplateInput } from '@/types/firebase';
+import { COLLECTIONS, ProductTemplate } from '@/types/firebase';
 import {
   getDocument,
   getAllDocuments,
   setDocument,
   queryDocuments,
 } from './firestore';
+import { sanitizeShopifyId } from '@/lib/utils/shopify-id';
 
 /**
  * Get product template assignment by product ID
  */
 export async function getProductTemplate(productId: string): Promise<ProductTemplate | null> {
   try {
-    return await getDocument<ProductTemplate>(COLLECTIONS.PRODUCTS, productId);
+    // Sanitize the product ID to remove // which Firestore doesn't allow
+    const sanitizedId = sanitizeShopifyId(productId);
+    return await getDocument<ProductTemplate>(COLLECTIONS.PRODUCTS, sanitizedId);
   } catch (error) {
     console.error('Error fetching product template:', error);
     return null;
@@ -29,6 +32,8 @@ export async function setProductTemplate(
   customFields?: Record<string, any>
 ): Promise<void> {
   try {
+    // Sanitize the product ID for Firestore
+    const sanitizedId = sanitizeShopifyId(productId);
     const productTemplate: Omit<ProductTemplate, 'updatedAt'> = {
       productId,
       shopifyId,
@@ -36,7 +41,7 @@ export async function setProductTemplate(
       customFields: customFields || {},
     };
 
-    await setDocument(COLLECTIONS.PRODUCTS, productId, {
+    await setDocument(COLLECTIONS.PRODUCTS, sanitizedId, {
       ...productTemplate,
       updatedAt: Timestamp.now(),
     });
@@ -81,7 +86,8 @@ export async function getProductsByTemplate(templateId: string): Promise<Product
 export async function removeProductTemplate(productId: string): Promise<void> {
   try {
     const { deleteDocument } = await import('./firestore');
-    await deleteDocument(COLLECTIONS.PRODUCTS, productId);
+    const sanitizedId = sanitizeShopifyId(productId);
+    await deleteDocument(COLLECTIONS.PRODUCTS, sanitizedId);
   } catch (error) {
     console.error('Error removing product template:', error);
     throw error;

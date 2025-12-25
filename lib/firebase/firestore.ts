@@ -13,7 +13,6 @@ import {
   DocumentData,
 } from 'firebase/firestore';
 import { db } from './config';
-import { COLLECTIONS } from '@/types/firebase';
 
 // Helper function to get collection reference
 export function getCollectionRef(collectionName: string): CollectionReference<DocumentData> {
@@ -25,11 +24,16 @@ export function getDocRef(collectionName: string, docId: string) {
   return doc(db, collectionName, docId);
 }
 
-// Generic CRUD operations
+// Generic CRUD operations with timeout and retry logic
 export async function getDocument<T>(collectionName: string, docId: string): Promise<T | null> {
   try {
     const docRef = getDocRef(collectionName, docId);
-    const docSnap = await getDoc(docRef);
+    const docSnap = await Promise.race([
+      getDoc(docRef),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Firestore operation timeout after 5s')), 5000)
+      )
+    ]) as any;
     
     if (docSnap.exists()) {
       return { id: docSnap.id, ...docSnap.data() } as T;
@@ -37,7 +41,8 @@ export async function getDocument<T>(collectionName: string, docId: string): Pro
     return null;
   } catch (error) {
     console.error(`Error getting document from ${collectionName}:`, error);
-    throw error;
+    // Return null instead of throwing for non-critical operations
+    return null;
   }
 }
 

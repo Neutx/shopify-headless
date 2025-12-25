@@ -18,11 +18,11 @@ import {
 
 // GET /api/templates/[id] - Get a single template
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const template = await getTemplate(id);
 
     if (!template) {
@@ -42,10 +42,10 @@ export async function GET(
 // PUT /api/templates/[id] - Update a template
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     // Check if template exists
@@ -81,11 +81,11 @@ export async function PUT(
 
 // DELETE /api/templates/[id] - Delete a template
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // Check if template exists
     const existingTemplate = await getTemplate(id);
