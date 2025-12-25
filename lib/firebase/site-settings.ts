@@ -53,9 +53,20 @@ export async function updateLogo(logoSettings: UpdateLogoInput): Promise<void> {
     const currentSettings = await getSiteSettings();
     const docRef = doc(db, COLLECTIONS.SITE_SETTINGS, 'general');
     
+    // Filter out undefined values from logo settings (Firestore doesn't allow undefined)
+    const cleanLogoSettings: Record<string, any> = {
+      type: logoSettings.type,
+    };
+    
+    if (logoSettings.fileUrl !== undefined) cleanLogoSettings.fileUrl = logoSettings.fileUrl;
+    if (logoSettings.cdnUrl !== undefined) cleanLogoSettings.cdnUrl = logoSettings.cdnUrl;
+    if (logoSettings.altText !== undefined) cleanLogoSettings.altText = logoSettings.altText;
+    if (logoSettings.width !== undefined) cleanLogoSettings.width = logoSettings.width;
+    if (logoSettings.height !== undefined) cleanLogoSettings.height = logoSettings.height;
+    
     await setDoc(docRef, {
       ...currentSettings,
-      logo: logoSettings,
+      logo: cleanLogoSettings,
       updatedAt: Timestamp.now(),
     }, { merge: true });
   } catch (error) {

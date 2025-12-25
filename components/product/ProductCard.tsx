@@ -8,9 +8,10 @@ import type { CleanProduct } from '@/types/shopify';
 
 interface ProductCardProps {
   product: CleanProduct;
+  priority?: boolean;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, priority }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   const price = product.variants?.[0]?.price || product.minPrice;
@@ -39,6 +40,8 @@ export default function ProductCard({ product }: ProductCardProps) {
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+            priority={priority}
+            fetchPriority={priority ? 'high' : undefined}
           />
         )}
         

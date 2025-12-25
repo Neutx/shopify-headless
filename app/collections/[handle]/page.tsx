@@ -54,6 +54,10 @@ export async function generateMetadata({ params }: CollectionPageProps) {
             ]
           : [],
       },
+      other: {
+        'link-preconnect': 'https://cdn.shopify.com',
+        'link-dns-prefetch': 'https://cdn.shopify.com',
+      },
     };
   } catch {
     return {

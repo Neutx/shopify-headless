@@ -12,6 +12,7 @@ interface SafeImageProps {
   className?: string;
   priority?: boolean;
   sizes?: string;
+  fetchPriority?: 'high' | 'low' | 'auto';
 }
 
 /**
@@ -27,11 +28,18 @@ export function SafeImage({
   className,
   priority,
   sizes,
+  fetchPriority,
 }: SafeImageProps) {
   const [useUnoptimized, setUseUnoptimized] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
+    // Skip optimization check for priority images - load immediately for better LCP
+    if (priority) {
+      setIsChecking(false);
+      return;
+    }
+
     // Check if this image URL has failed before (stored in sessionStorage)
     let failedImages = JSON.parse(sessionStorage.getItem('failedImages') || '[]');
     if (failedImages.includes(src)) {
@@ -98,7 +106,7 @@ export function SafeImage({
       .finally(() => {
         setIsChecking(false);
       });
-  }, [src, width]);
+  }, [src, width, priority]);
 
   // Show placeholder while checking
   if (isChecking && !useUnoptimized) {
@@ -121,6 +129,7 @@ export function SafeImage({
       priority={priority}
       sizes={sizes}
       unoptimized={useUnoptimized}
+      fetchPriority={fetchPriority}
       onError={() => {
         // Fallback if image still fails
         if (!useUnoptimized) {
