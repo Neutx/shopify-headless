@@ -42,6 +42,7 @@ export default function ImageGallery({ images, productTitle }: ImageGalleryProps
           fill
           className="object-cover"
           priority={selectedIndex === 0}
+          fetchPriority={selectedIndex === 0 ? 'high' : undefined}
           sizes="(max-width: 768px) 100vw, 50vw"
         />
         
