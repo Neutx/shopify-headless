@@ -31,6 +31,17 @@ const nextConfig = {
   compress: true,
   // Enable typed routes (moved from experimental in Next.js 15)
   typedRoutes: true,
+  // Compiler optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'],
+    } : false,
+  },
+  // Target modern browsers
+  experimental: {
+    browsersListForSwc: true,
+    legacyBrowsers: false,
+  },
 };
 
 module.exports = nextConfig;
