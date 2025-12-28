@@ -1,0 +1,83 @@
+import type { SectionDefinition } from '@/types/sections';
+
+export const relatedProductsSectionDefinition: SectionDefinition = {
+  type: 'relatedProducts',
+  name: 'Related Products',
+  description: 'Show recommended or similar products',
+  icon: 'ShoppingBag',
+  category: 'Product Info',
+  defaultSettings: {
+    title: 'You May Also Like',
+    limit: 4,
+    columns: 4,
+    selectionMethod: 'same-collection',
+    showPrice: true,
+    showRating: false,
+    ctaText: 'View Product',
+  },
+  settingsSchema: [
+    {
+      key: 'title',
+      label: 'Section Title',
+      type: 'text',
+      default: 'You May Also Like',
+      placeholder: 'Enter section title',
+      description: 'Title displayed above product recommendations',
+    },
+    {
+      key: 'limit',
+      label: 'Number of Products',
+      type: 'range',
+      default: 4,
+      min: 2,
+      max: 12,
+      step: 1,
+      description: 'Maximum number of products to display',
+    },
+    {
+      key: 'columns',
+      label: 'Columns',
+      type: 'range',
+      default: 4,
+      min: 2,
+      max: 6,
+      step: 1,
+      description: 'Number of columns in the product grid',
+    },
+    {
+      key: 'selectionMethod',
+      label: 'Selection Method',
+      type: 'select',
+      default: 'same-collection',
+      options: [
+        { value: 'same-collection', label: 'Same Collection' },
+        { value: 'same-type', label: 'Same Product Type' },
+        { value: 'random', label: 'Random Products' },
+      ],
+      description: 'How to select related products',
+    },
+    {
+      key: 'showPrice',
+      label: 'Show Price',
+      type: 'toggle',
+      default: true,
+      description: 'Display product prices',
+    },
+    {
+      key: 'showRating',
+      label: 'Show Rating',
+      type: 'toggle',
+      default: false,
+      description: 'Display product ratings',
+    },
+    {
+      key: 'ctaText',
+      label: 'Button Text',
+      type: 'text',
+      default: 'View Product',
+      placeholder: 'View Product',
+      description: 'Text for the call-to-action button',
+    },
+  ],
+};
+

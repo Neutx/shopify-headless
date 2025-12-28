@@ -11,7 +11,6 @@ Firebase for backend/hosting
 Admin panel for template assignment
 Ultra-smooth navigation and performance
 
-
 📋 RECOMMENDED TECH STACK
 Frontend
 
@@ -19,22 +18,17 @@ Framework: Next.js 14+ (App Router)
 
 Why: Best-in-class SSR/SSG, image optimization, automatic code splitting, perfect for e-commerce performance
 
-
 Styling: Tailwind CSS + shadcn/ui
 
 Why: Matches your existing knowledge, production-ready components, excellent performance
-
 
 State Management: Zustand + React Query
 
 Why: Lightweight, Shopify data caching, optimistic updates
 
-
 Animations: Framer Motion
 
 Why: Smooth page transitions, micro-interactions
-
-
 
 Backend & Infrastructure
 
@@ -43,16 +37,13 @@ Hosting: Vercel (recommended over Firebase Hosting)
 Why: Native Next.js optimization, edge functions, better performance than Firebase for Next.js
 Alternative: Firebase Hosting + Cloud Functions if you must use Firebase
 
-
 Database: Firebase Firestore
 
 Why: Real-time capabilities, good for admin panel, template assignments
 
-
 Auth: Firebase Auth
 
 Why: Simple admin authentication
-
 
 Image CDN: Cloudinary or Vercel's built-in Image Optimization
 API: Shopify Storefront API (GraphQL)
@@ -62,7 +53,6 @@ Admin Panel
 Framework: Next.js (separate app or /admin route)
 UI: shadcn/ui + Tailwind
 Forms: React Hook Form + Zod validation
-
 
 🗓️ PROJECT PHASES & TIMELINE
 Phase 0: Foundation & Setup (Week 1)
@@ -76,7 +66,6 @@ Project Initialization
  Configure ESLint, Prettier
  Set up Git repository and branching strategy
 
-
 Firebase Setup
 
  Create Firebase project
@@ -85,7 +74,6 @@ Firebase Setup
  Create Firestore collections structure
  Set up security rules
 
-
 Shopify Integration
 
  Get Shopify Storefront API credentials
@@ -93,15 +81,11 @@ Shopify Integration
  Test basic product fetching
  Document API rate limits and caching strategy
 
-
 Development Environment
 
  Set up environment variables (.env.local)
  Create development, staging, production configs
  Set up Vercel project (or Firebase hosting)
-
-
-
 
 Phase 1: Core Data Layer (Week 2)
 Goal: Build robust data fetching and caching system
@@ -115,19 +99,16 @@ Shopify Data Layer
  Implement React Query for caching
  Create error handling and retry logic
 
-
 Firebase Data Models
 
  Design Firestore schema for template assignments
-
-
 
    /products/{productId}
      - shopifyId: string
      - templateId: string
      - customFields: object
      - updatedAt: timestamp
-   
+
    /templates
      - templateId: string
      - name: string
@@ -137,16 +118,12 @@ Firebase Data Models
  Create Firebase utility functions
  Build sync mechanism (Shopify ↔ Firebase)
 
-
 API Routes
 
  /api/products/[id] - Get product with template
  /api/collections/[handle] - Get collection
  /api/templates - CRUD for templates
  /api/sync - Manual Shopify sync trigger
-
-
-
 
 Phase 2: Frontend Foundation (Week 3-4)
 Goal: Build core layout, routing, and reusable components
@@ -160,14 +137,12 @@ Layout System
  Add loading states skeleton
  Create error boundaries
 
-
 Core Pages (Basic Structure)
 
  / - Home page shell
  /collections/[handle] - Collection page shell
  /products/[handle] - Product page shell
  /404 - Not found page
-
 
 Reusable Components
 
@@ -178,16 +153,12 @@ Reusable Components
  Modal/Dialog components
  Breadcrumb component
 
-
 Performance Setup
 
  Configure next/image for optimization
  Set up font optimization
  Implement code splitting strategy
  Add prefetching for links
-
-
-
 
 Phase 3: Product Template System (Week 5-6)
 Goal: Build dynamic product template rendering engine
@@ -196,8 +167,6 @@ Tasks:
 Template Architecture
 
  Design template component structure
-
-
 
 tsx   /components/templates/
      ├── ProductTemplateA.tsx
@@ -209,7 +178,6 @@ tsx   /components/templates/
  Build dynamic template loader
  Implement template preview system
 
-
 Product Templates (Based on Figma)
 
  Template A: Standard product layout
@@ -217,7 +185,6 @@ Product Templates (Based on Figma)
  Template C: Technical/specs layout
  Add more templates as designs arrive
  Ensure all templates use shared components
-
 
 Template Features
 
@@ -227,9 +194,6 @@ Template Features
  Product details accordion
  Related products section
  Reviews/ratings placeholder
-
-
-
 
 Phase 4: Collection & Home Pages (Week 7)
 Goal: Complete main browsing experience
@@ -244,7 +208,6 @@ Home Page (From Figma)
  Newsletter signup
  Implement all animations/transitions
 
-
 Collection Page
 
  Product grid with filters
@@ -254,16 +217,12 @@ Collection Page
  Collection header/description
  Breadcrumbs
 
-
 Search Functionality
 
  Search bar component
  Search results page
  Instant search suggestions
  Search analytics integration
-
-
-
 
 Phase 5: Admin Panel (Week 8-9)
 Goal: Build complete template management system
@@ -276,14 +235,12 @@ Admin Authentication
  Protected routes middleware
  Role-based access control
 
-
 Admin Dashboard
 
  Dashboard overview
  Products list with search
  Sync status indicator
  Analytics summary
-
 
 Template Assignment Interface
 
@@ -293,7 +250,6 @@ Template Assignment Interface
  Search and filter products
  Save and publish workflow
 
-
 Template Management
 
  View all templates
@@ -301,16 +257,12 @@ Template Management
  Template metadata editor
  Template usage statistics
 
-
 Shopify Sync
 
  Manual sync button
  Sync logs
  Sync status notifications
  Webhook setup (if needed)
-
-
-
 
 Phase 6: Performance Optimization (Week 10)
 Goal: Achieve ultra-smooth navigation and fast load times
@@ -324,7 +276,6 @@ Code Optimization
  Optimize third-party scripts
  Remove unused dependencies
 
-
 Image Optimization
 
  Convert images to WebP/AVIF
@@ -333,14 +284,12 @@ Image Optimization
  Lazy load images below fold
  Use proper image sizing
 
-
 Caching Strategy
 
  Configure React Query cache times
  Implement SWR for frequently accessed data
  Set up proper HTTP caching headers
  Add service worker for offline support (optional)
-
 
 Navigation Optimization
 
@@ -349,16 +298,12 @@ Navigation Optimization
  Optimize route changes
  Reduce JavaScript on initial load
 
-
 Performance Testing
 
  Lighthouse audits (target: 90+)
  Core Web Vitals optimization
  Real device testing
  Network throttling tests
-
-
-
 
 Phase 7: Polish & Edge Cases (Week 11)
 Goal: Handle all user scenarios and edge cases
@@ -372,7 +317,6 @@ Error Handling
  Retry mechanisms
  User-friendly error messages
 
-
 SEO Optimization
 
  Dynamic meta tags per page
@@ -380,7 +324,6 @@ SEO Optimization
  JSON-LD structured data
  XML sitemap generation
  robots.txt configuration
-
 
 Accessibility
 
@@ -390,16 +333,12 @@ Accessibility
  Color contrast checks
  Screen reader testing
 
-
 Mobile Optimization
 
  Touch-friendly interactions
  Mobile navigation refinement
  Bottom sheet implementations
  Responsive image galleries
-
-
-
 
 Phase 8: Testing & QA (Week 12)
 Goal: Ensure production-ready quality
@@ -413,7 +352,6 @@ Testing
  Cross-browser testing
  Mobile device testing
 
-
 Quality Assurance
 
  Test all product templates
@@ -422,7 +360,6 @@ Quality Assurance
  Test edge cases (empty states, errors)
  Performance testing under load
 
-
 Security
 
  Firebase security rules audit
@@ -430,9 +367,6 @@ Security
  Input validation
  XSS prevention
  Rate limiting
-
-
-
 
 Phase 9: Launch Preparation (Week 13)
 Goal: Deploy to production
@@ -446,7 +380,6 @@ Pre-Launch
  Create deployment pipeline
  Database backup strategy
 
-
 Documentation
 
  Admin panel user guide
@@ -454,7 +387,6 @@ Documentation
  Template creation guide
  API documentation
  Troubleshooting guide
-
 
 Launch
 
@@ -464,10 +396,8 @@ Launch
  Set up analytics
  Create runbook for issues
 
-
-
-
 🔑 CRITICAL SUCCESS FACTORS
+
 1. Performance First
 
 SSG for static pages (home, collections)
@@ -475,10 +405,10 @@ ISR for product pages (revalidate every 60s)
 Aggressive prefetching on hover
 Minimal JavaScript on initial load
 
-2. Template System Architecture
+1. Template System Architecture
 tsx// Dynamic template loading
 const TemplateRenderer = ({ productId, templateId }) => {
-  const TemplateComponent = lazy(() => 
+  const TemplateComponent = lazy(() =>
     import(`@/templates/${templateId}`)
   );
   
@@ -488,10 +418,12 @@ const TemplateRenderer = ({ productId, templateId }) => {
     </Suspense>
   );
 };
+
 ```
 
 ### **3. Data Flow**
 ```
+
 Shopify API → React Query Cache → UI
                     ↓
               Firebase (template assignment)
@@ -501,13 +433,11 @@ Single-page app for speed
 Real-time updates with Firestore
 Bulk operations for efficiency
 
-
 📊 KEY METRICS TO TRACK
 
 Performance: LCP < 2.5s, FID < 100ms, CLS < 0.1
 Development: Sprint velocity, bug rate
 Business: Admin usage, template distribution
-
 
 🚀 GETTING STARTED CHECKLIST
 Week 1, Day 1:
@@ -530,4 +460,3 @@ Test on real devices early - Don't wait until Phase 8
 Document as you go - Future you will thank present you
 Use feature flags - Deploy incomplete features behind flags
 Weekly demos - Show progress to stakeholders weekly
-

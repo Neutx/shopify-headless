@@ -1,7 +1,10 @@
 import { notFound } from 'next/navigation';
 import { fetchProductByHandle } from '@/lib/shopify/products';
 import { getProductTemplate } from '@/lib/firebase/products';
+import { getTemplate } from '@/lib/firebase/templates';
+import { mergeAllSectionOverrides } from '@/lib/sections/utils';
 import ProductPageClient from './ProductPageClient';
+import TemplateRenderer from '@/components/templates/TemplateRenderer';
 
 interface ProductPageProps {
   params: Promise<{
@@ -20,10 +23,33 @@ export default async function ProductPage({ params }: ProductPageProps) {
       notFound();
     }
 
-    // Fetch template configuration from Firebase
-    const template = await getProductTemplate(product.id);
+    // Fetch product template assignment using handle (not Shopify ID)
+    const productTemplate = await getProductTemplate(product.handle);
+    
+    // Check if product has a template assigned with sections
+    let templateSections = null;
+    if (productTemplate && productTemplate.templateId) {
+      const template = await getTemplate(productTemplate.templateId);
+      
+      if (template && template.sections && template.sections.length > 0) {
+        // Merge product-specific overrides with template sections
+        templateSections = mergeAllSectionOverrides(
+          template.sections,
+          productTemplate.sectionOverrides
+        );
+      }
+    }
 
-    return <ProductPageClient product={product} template={template} />;
+    // Always render default product page
+    // If template sections exist, they'll be rendered below
+    return (
+      <div>
+        <ProductPageClient product={product} template={productTemplate} />
+        {templateSections && templateSections.length > 0 && (
+          <TemplateRenderer sections={templateSections} productId={product.handle} />
+        )}
+      </div>
+    );
   } catch (error) {
     console.error('Error loading product:', error);
     notFound();

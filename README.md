@@ -187,7 +187,7 @@ Make sure to set up your Firebase project and Shopify store before running the a
 
 The following phases are planned:
 
-- ~~**Phase 2**: Frontend Foundation (Layout, Core Pages, Components)~~ ✅ **COMPLETE**
+- **Phase 2**: Frontend Foundation (Layout, Core Pages, Components)~~ ✅ **COMPLETE**
 - **Phase 3**: Product Template System
 - **Phase 4**: Collection & Home Pages (expand existing)
 - **Phase 5**: Admin Panel (expand existing)

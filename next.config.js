@@ -37,11 +37,6 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
-  // Target modern browsers
-  experimental: {
-    browsersListForSwc: true,
-    legacyBrowsers: false,
-  },
 };
 
 module.exports = nextConfig;

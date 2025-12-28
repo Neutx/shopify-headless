@@ -3,16 +3,16 @@ import { z } from 'zod';
 // Template validation schemas
 export const createTemplateSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100, 'Name is too long'),
-  component: z.string().min(1, 'Component name is required'),
   description: z.string().optional(),
-  previewImage: z.string().url('Invalid URL').optional(),
+  previewImage: z.string().optional(), // Made optional without URL validation for empty strings
+  sections: z.array(z.any()).optional(), // Array of sections
 });
 
 export const updateTemplateSchema = z.object({
   name: z.string().min(1).max(100).optional(),
-  component: z.string().min(1).optional(),
   description: z.string().optional(),
-  previewImage: z.string().url('Invalid URL').optional(),
+  previewImage: z.string().optional(),
+  sections: z.array(z.any()).optional(),
 });
 
 // Product template assignment schemas

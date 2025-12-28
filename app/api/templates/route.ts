@@ -42,17 +42,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { name, component, description, previewImage } = validation.data;
+    const { name, description, previewImage } = validation.data;
 
-    // Generate template ID from component name
-    const templateId = component.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    // Generate template ID from name
+    const templateId = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
 
     // Create template
     const template = await createTemplate(templateId, {
       name,
-      component,
       description,
       previewImage,
+      sections: [],
     });
 
     return NextResponse.json({ template }, { status: 201 });

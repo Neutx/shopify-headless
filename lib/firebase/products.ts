@@ -1,10 +1,12 @@
 import { Timestamp } from 'firebase/firestore';
 import { COLLECTIONS, ProductTemplate } from '@/types/firebase';
+import type { SectionOverrides } from '@/types/sections';
 import {
   getDocument,
   getAllDocuments,
   setDocument,
   queryDocuments,
+  updateDocument,
 } from './firestore';
 import { sanitizeShopifyId } from '@/lib/utils/shopify-id';
 
@@ -91,6 +93,38 @@ export async function removeProductTemplate(productId: string): Promise<void> {
   } catch (error) {
     console.error('Error removing product template:', error);
     throw error;
+  }
+}
+
+/**
+ * Set or update product section overrides
+ */
+export async function setProductSectionOverrides(
+  productId: string,
+  overrides: SectionOverrides
+): Promise<void> {
+  try {
+    const sanitizedId = sanitizeShopifyId(productId);
+    await updateDocument(COLLECTIONS.PRODUCTS, sanitizedId, {
+      sectionOverrides: overrides,
+      updatedAt: Timestamp.now(),
+    });
+  } catch (error) {
+    console.error('Error setting product section overrides:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get product with template and overrides
+ */
+export async function getProductWithOverrides(productId: string): Promise<ProductTemplate | null> {
+  try {
+    const sanitizedId = sanitizeShopifyId(productId);
+    return await getDocument<ProductTemplate>(COLLECTIONS.PRODUCTS, sanitizedId);
+  } catch (error) {
+    console.error('Error getting product with overrides:', error);
+    return null;
   }
 }
 

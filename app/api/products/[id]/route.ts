@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchProductByHandle } from '@/lib/shopify/products';
-import { getProductTemplate } from '@/lib/firebase/products';
+import { getProductTemplate, setProductTemplate } from '@/lib/firebase/products';
 import { getTemplate } from '@/lib/firebase/templates';
 import { formatErrorResponse, NotFoundError, logError } from '@/lib/utils/errors';
 
@@ -44,3 +44,35 @@ export async function GET(
   }
 }
 
+// PUT /api/products/[id] - Assign template to product
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params; // This is the handle
+    const body = await request.json();
+    const { templateId, shopifyId } = body;
+    
+    if (!templateId || !shopifyId) {
+      return NextResponse.json(
+        { error: { message: 'templateId and shopifyId are required' } },
+        { status: 400 }
+      );
+    }
+    
+    // Set product template assignment
+    await setProductTemplate(id, templateId, shopifyId);
+    
+    return NextResponse.json({ 
+      success: true,
+      message: 'Template assigned successfully' 
+    }, { status: 200 });
+  } catch (error) {
+    logError(error, 'PUT /api/products/[id]');
+    const errorResponse = formatErrorResponse(error);
+    return NextResponse.json(errorResponse, {
+      status: errorResponse.error.statusCode,
+    });
+  }
+}
